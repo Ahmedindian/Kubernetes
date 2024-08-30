@@ -1,0 +1,110 @@
+//
+hostnamectl set-hostname master-node
+bash
+hostname
+//
+hostnamectl set-hostname worker-node-1
+bash
+hostname
+//
+hostnamectl set-hostname worker-node-2
+bash
+hostname
+
+Edit the /etc/hosts file to include mappings of IP addresses to hostnames.
+$ vi /etc/hosts
+172.31.0.196 master-node
+172.31.0.233 worker-node-1
+172.31.0.123 worker-node-2
+
+
+ping each other via hostname:
+
+2. Disable swap on all nodes.
+
+Check swap status using free -h and disable if necessary.
+3. Open required ports in the firewall.
+
+Check firewall status using systemctl status firewalls.
+
+4. Verify minimum hardware configuration based on official documentation.
+
+Installing kubeadm
+Follow the below steps to install kubeadm and related dependencies on all nodes.
+
+Master Node and Worker Nodes:
+SSH into the master node.
+Ensure sudo access is available.
+
+
+Update packages and their versions.
+//
+sudo apt-get update && sudo apt-get upgrade -y
+
+Install necessary packages: apt-transport-https, curl.
+//
+sudo apt-get update && sudo apt-get install -y apt-transport-https curlInstall Docker.
+
+sudo apt-get install docker.io -y
+
+Add Google’s apt key to verify releases.
+//
+curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+//
+sudo apt-get install -y apt-transport-https ca-certificates curl gpg
+//
+curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.30/deb/Release.key | sudo gpg - dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+
+//
+apt-get install gpg
+
+sudo mkdir -p -m 755 /etc/apt/keyrings
+
+curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.30/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+\\
+
+Add Kubernetes apt repository.
+
+# This overwrites any existing configuration in /etc/apt/sources.list.d/kubernetes.list
+//
+
+echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.30/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
+
+//
+
+# add kubernetes apt repo:
+cat <<EOF | sudo tee /etc/apt/sources.list.d/kubernetes.list
+deb https://apt.kubernetes.io/ kubernetes-xenial main
+EOF
+
+
+//
+
+echo "deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.28/deb/ /" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+
+curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.28/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+
+sudo apt update
+
+sudo apt install -y kubelet kubeadm kubectl
+
+//
+
+sudo apt-mark hold kubelet kubeadm kubectl
+
+kubeadm init --pod-network-cidr=172.31.0.196/16 -v=9
+//
+
+Installing CNI Plugin (e.g., Flannel)
+If necessary, install a Container Network Interface (CNI) plugin to enable networking between pods. For example, to install Flannel:
+//
+kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+
+//
+Conclusion
+Congratulations! You have successfully set up a Kubernetes cluster using kubeadm on multiple nodes. You can now deploy and manage containerized applications on your Kubernetes cluster.
+
+
+
+
+
