@@ -1,5 +1,12 @@
 kubectl taint nodes worker-virtualbox key1=value1:NoSchedule-
 
+ kubectl get pods -n kube-systemkube
+
+sudo systemctl enable --now kubelet
+
+wget https://github.com/flannel-io/flannel/releases/latest/download/kube-flannel.yml
+
+kubectl apply -f kube-flannel.yml
 
 GitHub.com/mirants/cri-dockerd
 
