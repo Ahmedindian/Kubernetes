@@ -1,0 +1,33 @@
+kubectl taint nodes worker-virtualbox key1=value1:NoSchedule-
+
+
+GitHub.com/mirants/cri-dockerd
+
+.github/workflows/integration.yml
+
+kubeadm init --pod-network-cidr=10.244.0.0/16 -v=9 --cri-socket=unix:///var/run/cri-dockerd.sock
+
+
+kubeadm init --pod-network-cidr=172.31.0.196/16 -v=9
+
+DeepTag APIs Subscription-Aug
+
+/etc/systemd/system/cri-docker.socketc
+
+
+kubeadm token create --print-join-command (to Generate Token.)
+
+sudo apt install -y kubelet kubeadm kubectl
+
+
+kubectl run firstpod --generation=run-pod/v1 --image=coolgourav147/nginx-custom
+
+
+kubectl describe pods
+kubectl run firstpod  --image=coolgourav147/nginx-custom
+kubectl run firstpod --generation=run-pod/v1 --image=coolgourav147/nginx-custom
+kubectl explain pods // To understand pod Configuration
+Kubectl delete resoursetype(pod) resourcename(firstpod)
+kubectl get pods -w (to Watch Pods)
+
+kubectl -n kube-system edit svc (Change IP Address)
