@@ -1,6 +1,8 @@
 kubectl taint nodes worker-virtualbox key1=value1:NoSchedule-
 
- kubectl get pods -n kube-systemkube
+ kubectl get pods -n kube-system
+
+kubectl get pods --all-namespaces
 
 sudo systemctl enable --now kubelet
 
