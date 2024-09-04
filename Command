@@ -1,4 +1,10 @@
+
+
+
+
 kubectl taint nodes worker-virtualbox key1=value1:NoSchedule-
+
+kubectl delete -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
 
  kubectl get pods -n kube-system
 
